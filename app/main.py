@@ -13,7 +13,7 @@ from starlette.responses import RedirectResponse
 
 models.Base.metadata.create_all(bind=engine)
 # middleware is needed to access request.session object to send flash messages
-middleware = [Middleware(SessionMiddleware, secret_key=config.SECRET_KEY)]
+middleware = [Middleware(SessionMiddleware, secret_key="secret_key")]
 app = FastAPI(middleware=middleware)
 app.include_router(api_router)
 
