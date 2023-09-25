@@ -1,0 +1,14 @@
+{% block tablerow %}
+
+<tr onclick=window.location.href='/record/{{row.ROWID}}' role="button";>
+  <!-- **Table must remain ordered same as tablehead.html** -->
+  <td>{{row.date}}</td>
+  <td>{{row.calories}}</td>
+  <td>{{'✓' if row.gym}}</td>
+  <td>{{'✓' if row.coding}}</td>
+  <td>{{'✓' if row.music}}</td>
+  <td>{{'✓' if row.language}}</td>
+  <td>{{row.other if row.other else ''}}</td>
+</tr>
+
+{% endblock %}

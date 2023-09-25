@@ -1,0 +1,58 @@
+<div class="mb-3">
+  <label>Date:</label>
+  <input id="date" type="date" class="form-control bg-secondary text-light" name="date" value="{{record and record.date}}" required>
+  {% if not record %}
+  <script>
+    document.getElementById('date').value = new Date().toLocaleString("sv").split(" ")[0];
+  </script>
+  {% endif %}
+</div>
+<div class="mb-3">
+  <label>Calories:</label>
+  <input id="calories" type="text" class="form-control bg-secondary text-light" name="calories" value="{{record and record.calories}}" required>
+</div>
+<div class="mb-3">
+  <label>Gym:</label>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input type="checkbox" class="form-check-input" name="gym" value={{record.gym if record else 'False' }} {{ 'checked' if record and record.gym}}></input>
+      <label class="form-check-label" for="gym">Yes</label>
+    </div>
+  </div>
+</div>
+<div class="mb-3">
+  <label>Language:</label>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input type="checkbox" class="form-check-input" name="language" value={{record.language if record else 'False' }} {{ 'checked' if record and record.language }}></input>
+      <label class="form-check-label" for="language">Yes</label>
+    </div>
+  </div></div>
+<div class="mb-3">
+  <label>Coding:</label>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input type="checkbox" class="form-check-input" name="coding" value={{record.coding if record else 'False' }} {{ 'checked' if record and record.coding }}></input>
+      <label class="form-check-label" for="coding">Yes</label>
+    </div>
+  </div></div>
+<div class="mb-3">
+  <label>Music:</label>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input type="checkbox" class="form-check-input" name="music" value={{record.music if record else 'False' }} {{ 'checked' if record and record.music }}></input>
+      <label class="form-check-label" for="music">Yes</label>
+    </div>
+  </div></div>
+<div class="mb-3">
+  <label>Other:</label>
+  <textarea id="other" style="height: 100px;" class="form-control bg-secondary text-light" name="other">{{record and record.other}}</textarea>
+</div>
+<script>
+  document.querySelectorAll('.form-check-input').forEach(item => {
+    item.addEventListener('change', event => {
+      item.value = item.checked ? 'True' : 'False';
+      console.log(item.value);
+    })
+  })
+</script>

@@ -8,11 +8,11 @@ setup(
     author_email="stevenstonaker@gmail.com",
     packages=find_packages(),
     install_requires=[
-        'sqlalchemy==2.0.*',
         'fastapi==0.103.*',
-        'uvicorn-0.23.2',
+        'uvicorn==0.23.*',
         'itsdangerous==2.1.*',
-        'psycopg2==2.9.*',
         'jinja2==3.1.*',
+        'python-multipart==0.0.*',
+        'sqlmodel==0.0.*',
     ]
 )
