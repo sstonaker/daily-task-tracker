@@ -1,8 +1,10 @@
 import crud
+import models
 import utils
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
+from starlette.responses import RedirectResponse
 
 router = APIRouter()
 
@@ -19,8 +21,103 @@ def index(
         daily_tasks = crud.get_all_records(db)
     except Exception as e:
         utils.flash(
-            request, f"Unable to retrieve anomalies from database. {e}", "alert-danger"
+            request, f"Unable to retrieve records from database. {e}", "alert-danger"
         )
         return templates.TemplateResponse("error.html", {"request": request})
 
-    return daily_tasks
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "daily_tasks": daily_tasks,
+        },
+    )
+
+
+@router.get("/record/{ROWID}")
+def read(
+    request: Request,
+    ROWID: int,
+    db: Session = Depends(utils.get_db),
+):
+    try:
+        record = crud.get_record_by_rowid(db, ROWID)
+    except TypeError as e:
+        raise HTTPException(
+            status_code=400, detail=f"Invalid id - must be integer-like. {e}"
+        )
+    if not record:
+        raise HTTPException(
+            status_code=502, detail=f"Record (id:{ROWID}) not found."
+        )
+
+    return templates.TemplateResponse(
+        "task.html",
+        {
+            "request": request,
+            "record": record,
+        },
+    )
+
+
+@router.get("/record")
+def add_record(
+    request: Request
+):
+    return templates.TemplateResponse(
+        "task.html",
+        {
+            "request": request
+        },
+    )
+
+
+@router.post("/record")
+def create(
+    request: Request,
+    form_data: models.DailyTasks = Depends(),
+    db: Session = Depends(utils.get_db),
+):
+    print("\n", form_data)
+
+    try:
+        crud.create_record(db, form_data)
+    except Exception as e:
+        raise HTTPException(
+            status_code=502, detail=f"Unable to add record. {e}"
+        )
+
+    utils.flash(
+        request, "New record added.", "alert-success"
+    )
+
+    # status code must be changed since by default redirect (307) preserves the
+    # request type - index as "GET" will not accept redirect with "POST" from this route
+    return RedirectResponse(
+        url=request.url_for("index"), status_code=status.HTTP_303_SEE_OTHER
+    )
+
+
+@router.post("/record/{ROWID}")
+async def update(
+    request: Request,
+    form_data: models.DailyTasks = Depends(),
+    db: Session = Depends(utils.get_db),
+):
+    print("\n", form_data)
+    try:
+        crud.update_record(db, form_data)
+    except Exception as e:
+        raise HTTPException(
+            status_code=502, detail=f"Unable to add record. {e}"
+        )
+
+    utils.flash(
+        request, "Record updated.", "alert-success"
+    )
+
+    # status code must be changed since by default redirect (307) preserves the
+    # request type - index as "GET" will not accept redirect with "POST" from this route
+    return RedirectResponse(
+        url=request.url_for("index"), status_code=status.HTTP_303_SEE_OTHER
+    )

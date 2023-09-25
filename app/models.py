@@ -1,16 +1,15 @@
+from typing import Annotated, Optional
 
-from database import Base
-from sqlalchemy import Boolean, Column, Date, Integer, Text
+from fastapi import Form
+from sqlmodel import Field, SQLModel
 
 
-class DailyTask(Base):
-    __tablename__ = "daily_tasks"
-
-    ROWID = Column(Integer, primary_key=True)
-    date = Column(Text)
-    calories = Column(Integer)
-    gym = Column(Boolean)
-    language = Column(Boolean)
-    coding = Column(Boolean)
-    music = Column(Boolean)
-    other = Column(Text)
+class DailyTasks(SQLModel, table=True):
+    ROWID: Optional[int] = Field(default=None, primary_key=True)
+    date: Annotated[str, Form(...)]
+    calories: Annotated[int, Form(...)]
+    gym: Annotated[bool | None, Form()] = False
+    language: Annotated[bool | None, Form()] = False
+    coding: Annotated[bool | None, Form()] = False
+    music: Annotated[bool | None, Form()] = False
+    other: Annotated[str | None, Form()] = ""
