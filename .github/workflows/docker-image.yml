@@ -7,15 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag daily-task-tracker:$(date +%s)
-      
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -31,9 +23,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/daily-task-tracker
+          images: ${{ github.repository }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       
-      - name: Build and push Docker image
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
