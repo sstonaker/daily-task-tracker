@@ -79,7 +79,7 @@ def create(
     db: Session = Depends(utils.get_db),
 ):
     existing_record = crud.get_record_by_date(db, form_data.date)
-    
+
     if not existing_record:
 
         try:
