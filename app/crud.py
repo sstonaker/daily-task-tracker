@@ -10,6 +10,10 @@ def get_record_by_rowid(db: Session, ROWID: int):
     return db.query(models.DailyTasks).filter(models.DailyTasks.ROWID == ROWID).first()
 
 
+def get_record_by_date(db: Session, date: str):
+    return db.query(models.DailyTasks).filter(models.DailyTasks.date == date).first()
+
+
 def create_record(db: Session, record: models.DailyTasks):
     db.add(record)
     db.commit()

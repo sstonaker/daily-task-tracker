@@ -78,18 +78,24 @@ def create(
     form_data: models.DailyTasks = Depends(),
     db: Session = Depends(utils.get_db),
 ):
-    print("\n", form_data)
+    existing_record = crud.get_record_by_date(db, form_data.date)
+    
+    if not existing_record:
 
-    try:
-        crud.create_record(db, form_data)
-    except Exception as e:
-        raise HTTPException(
-            status_code=502, detail=f"Unable to add record. {e}"
+        try:
+            crud.create_record(db, form_data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=502, detail=f"Unable to add record. {e}"
+            )
+
+        utils.flash(
+            request, "New record added.", "alert-success"
         )
-
-    utils.flash(
-        request, "New record added.", "alert-success"
-    )
+    else:
+        utils.flash(
+            request, "Date already exists.", "alert-danger"
+        )
 
     # status code must be changed since by default redirect (307) preserves the
     # request type - index as "GET" will not accept redirect with "POST" from this route
