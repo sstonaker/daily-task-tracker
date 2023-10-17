@@ -1,0 +1,30 @@
+<div class="mb-3">
+  <label>Date:</label>
+  <input id="date" type="date" class="form-control bg-secondary text-light" name="date" value="{{record and record.date}}" required>
+  {% if not record %}
+  <script>
+    document.getElementById('date').value = new Date().toLocaleString("sv").split(" ")[0];
+  </script>
+  {% endif %}
+</div>
+<div class="mb-3">
+  <label>Todo:</label>
+  <textarea id="todo" style="height: 100px;" class="form-control bg-secondary text-light" name="todo">{{record and record.todo}}</textarea>
+</div>
+<div class="mb-3">
+  <label>Done:</label>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input type="checkbox" class="form-check-input" name="done" value={{record.done if record else 'False' }} {{ 'checked' if record and record.done }}></input>
+      <label class="form-check-label" for="done">Done</label>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.form-check-input').forEach(item => {
+    item.addEventListener('change', event => {
+      item.value = item.checked ? 'True' : 'False';
+      console.log(item.value);
+    })
+  })
+</script>

@@ -1,9 +1,15 @@
 {% block tablerow %}
 
-<tr onclick=window.location.href='/record/{{row.ROWID}}' role="button";>
+<tr onclick=window.location.href='/todo/record/{{row.ROWID}}' role="button"
+{% if row.done %}
+style='text-decoration:line-through'
+{% endif %}
+>
   <!-- **Table must remain ordered same as tablehead.html** -->
+  
   <td>{{row.date}}</td>
-  <td>{{row.tasks if row.tasks else ''}}</td>
+  <td>{{row.todo if row.todo else ''}}</td>
+  <td>{{'✓' if row.done}}</td>
 </tr>
 
 {% endblock %}

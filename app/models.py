@@ -18,4 +18,5 @@ class DailyTasks(SQLModel, table=True):
 class DailyTodo(SQLModel, table=True):
     ROWID: Optional[int] = Field(default=None, primary_key=True)
     date: Annotated[str, Form(...)]
-    tasks: Annotated[str | None, Form()] = ""
+    todo: Annotated[str | None, Form()] = ""
+    done: Annotated[bool | None, Form()] = False
