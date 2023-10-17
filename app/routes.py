@@ -135,7 +135,7 @@ def todo(
     db: Session = Depends(utils.get_db),
 ):
     try:
-        daily_tasks = crud.get_all_records(db)
+        todo = crud.get_all_todo_records(db)
     except Exception as e:
         utils.flash(
             request, f"Unable to retrieve records from database. {e}", "alert-danger"
@@ -146,6 +146,6 @@ def todo(
         "index.html",
         {
             "request": request,
-            "daily_tasks": daily_tasks,
+            "todo": todo,
         },
     )

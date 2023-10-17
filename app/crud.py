@@ -6,6 +6,10 @@ def get_all_records(db: Session):
     return db.query(models.DailyTasks).all()
 
 
+def get_all_todo_records(db: Session):
+    return db.query(models.DailyTodo).all()
+
+
 def get_record_by_rowid(db: Session, ROWID: int):
     return db.query(models.DailyTasks).filter(models.DailyTasks.ROWID == ROWID).first()
 
