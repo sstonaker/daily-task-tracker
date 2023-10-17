@@ -127,3 +127,25 @@ async def update(
     return RedirectResponse(
         url=request.url_for("index"), status_code=status.HTTP_303_SEE_OTHER
     )
+
+
+@router.get("/todo")
+def todo(
+    request: Request,
+    db: Session = Depends(utils.get_db),
+):
+    try:
+        daily_tasks = crud.get_all_records(db)
+    except Exception as e:
+        utils.flash(
+            request, f"Unable to retrieve records from database. {e}", "alert-danger"
+        )
+        return templates.TemplateResponse("error.html", {"request": request})
+
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "daily_tasks": daily_tasks,
+        },
+    )

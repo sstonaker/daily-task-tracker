@@ -13,3 +13,9 @@ class DailyTasks(SQLModel, table=True):
     coding: Annotated[bool | None, Form()] = False
     music: Annotated[bool | None, Form()] = False
     other: Annotated[str | None, Form()] = ""
+
+
+class DailyTodo(SQLModel, table=True):
+    ROWID: Optional[int] = Field(default=None, primary_key=True)
+    date: Annotated[str, Form(...)]
+    tasks: Annotated[str | None, Form()] = ""
