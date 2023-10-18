@@ -7,8 +7,8 @@
     <div class="container">
       <h2><b>Daily Tasks</b>
         <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-primary m-2" onclick=window.location.href="{{ request.app.url_path_for('todo')|string }}";>To Do</button>
-          <button type="button" class="btn btn-success m-2" onclick=window.location.href="{{ request.app.url_path_for('add_record')|string }}";>Add Record</button>
+          <button type="button" class="btn btn-primary m-2" onclick=window.location.href="{{ request.app.url_path_for('index')|string }}";>Tasks</button>
+          <button type="button" class="btn btn-success m-2" onclick=window.location.href="{{ request.app.url_path_for('add_task')|string }}";>Add Task</button>
         </div>
       </h2>
       <div class="table-responsive p-3">
@@ -22,10 +22,10 @@
         <div style="display:none" class="alert alert-dismissable"></div>
         <table id='taskTable' class="table table-hover table-dark table-striped table-bordered">
           <!-- Table is broken up into tablehead.html and tablerow.html -->
-          {% include 'tablehead.html' %}
+          {% include 'todohead.html' %}
           <tbody class="table-group-divider">
-          {% for row in daily_tasks %}
-            {% include 'tablerow.html' %}
+          {% for row in todo %}
+            {% include 'todorow.html' %}
           {% endfor %}
           </tbody>
         </table>
