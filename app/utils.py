@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from database import SessionLocal
+from sqlmodel import Session
 from fastapi import Request
+from database import engine
 
 
 # global functions that jinja templates can access
@@ -16,12 +17,9 @@ def get_flashed_messages(request: Request) -> list[str]:
     return request.session.pop("_messages") if "_messages" in request.session else []
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+def get_session():
+    with Session(engine) as session:
+        yield session
 
 
 def validate_datetime(date: str) -> datetime | None:

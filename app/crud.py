@@ -38,10 +38,8 @@ def create_record(db: Session, record: models.DailyTasks):
 
 def update_record(db: Session, record: models.DailyTasks):
     db_record = db.get(models.DailyTasks, record.ROWID)
-    print(record)
     record_dict = record.dict(exclude_unset=True)
     for k, v in record_dict.items():
-        print(k, v)
         setattr(db_record, k, v)
     db.add(db_record)
     db.commit()
@@ -51,10 +49,8 @@ def update_record(db: Session, record: models.DailyTasks):
 
 def update_todo_record(db: Session, record: models.DailyTodo):
     db_record = db.get(models.DailyTodo, record.ROWID)
-    print(record)
     record_dict = record.dict(exclude_unset=True)
     for k, v in record_dict.items():
-        print(k, v)
         setattr(db_record, k, v)
     db.add(db_record)
     db.commit()

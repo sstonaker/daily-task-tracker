@@ -15,7 +15,7 @@ templates.env.globals["get_flashed_messages"] = utils.get_flashed_messages
 @router.get("/")
 def index(
     request: Request,
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
     try:
         daily_tasks = crud.get_all_records(db)
@@ -38,7 +38,7 @@ def index(
 def read(
     request: Request,
     ROWID: int,
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
     try:
         record = crud.get_record_by_rowid(db, ROWID)
@@ -76,7 +76,7 @@ def add_record(
 def create(
     request: Request,
     form_data: models.DailyTasks = Depends(),
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
     existing_record = crud.get_record_by_date(db, form_data.date)
 
@@ -108,9 +108,8 @@ def create(
 async def update(
     request: Request,
     form_data: models.DailyTasks = Depends(),
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
-    print("\n", form_data)
     try:
         crud.update_record(db, form_data)
     except Exception as e:
@@ -132,7 +131,7 @@ async def update(
 @router.get("/todo")
 def todo(
     request: Request,
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
     try:
         todo = crud.get_all_todo_records(db)
@@ -167,7 +166,7 @@ def add_task(
 def todo_create(
     request: Request,
     form_data: models.DailyTodo = Depends(),
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
 
     try:
@@ -192,9 +191,8 @@ def todo_create(
 async def todo_update(
     request: Request,
     form_data: models.DailyTodo = Depends(),
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
-    print("\n", form_data)
     try:
         crud.update_todo_record(db, form_data)
     except Exception as e:
@@ -217,7 +215,7 @@ async def todo_update(
 def read_todo(
     request: Request,
     ROWID: int,
-    db: Session = Depends(utils.get_db),
+    db: Session = Depends(utils.get_session),
 ):
     try:
         record = crud.get_todo_record_by_rowid(db, ROWID)
