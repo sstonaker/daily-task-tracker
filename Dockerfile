@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY ./setup.py setup.py
 
-RUN pip3 install .
+RUN pip install --no-cache-dir --upgrade .
 
 COPY app/ app/
 COPY templates/ templates/

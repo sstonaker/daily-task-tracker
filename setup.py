@@ -8,6 +8,7 @@ setup(
     author_email="stevenstonaker@gmail.com",
     packages=find_packages(),
     install_requires=[
+        'pydantic==1.10.*',
         'fastapi==0.103.*',
         'uvicorn==0.23.*',
         'itsdangerous==2.1.*',
