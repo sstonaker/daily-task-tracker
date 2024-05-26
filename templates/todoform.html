@@ -15,8 +15,16 @@
   <label>Done:</label>
   <div class="mb-3">
     <div class="form-check form-check-inline">
-      <input type="checkbox" class="form-check-input" name="done" value={{record.done if record else 'False' }} {{ 'checked' if record and record.done }}></input>
+      <input type="checkbox" class="form-check-input" name="done" value={{ record.done if record else 'False' }} {{ 'checked' if record and record.done }}></input>
       <label class="form-check-label" for="done">Done</label>
     </div>
   </div>
 </div>
+<script>
+  document.querySelectorAll('.form-check-input').forEach(item => {
+    item.addEventListener('change', event => {
+      item.value = item.checked ? 'True' : 'False';
+      console.log(item.value);
+    })
+  })
+</script>
