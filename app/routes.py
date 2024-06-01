@@ -132,9 +132,10 @@ async def update(
 def todo(
     request: Request,
     db: Session = Depends(utils.get_session),
+    date: str = "",
 ):
     try:
-        todo = crud.get_all_todo_records(db)
+        todo = crud.get_todo_records_by_date(db, date)
     except Exception as e:
         utils.flash(
             request, f"Unable to retrieve records from database. {e}", "alert-danger"
