@@ -6,10 +6,21 @@
   <div class="row">
     <div class="container">
       <h2 class="text-light"><b>Daily Tasks</b>
-        <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-primary m-2" onclick=window.location.href="{{ request.app.url_path_for('index')|string }}";>Tasks</button>
-          <button type="button" class="btn btn-success m-2" onclick=window.location.href="{{ request.app.url_path_for('add_task')|string }}";>Add Task</button>
-        </div>
+        <form id="todo-filter" action="{{request.app.url_path_for('todo')|string}}">
+          <div class="d-flex justify-content-beginning">
+            <input id="date" type="date" class="form-control bg-secondary text-light" name="date" value="{{record and record.date}}" style="width:300px;" required>
+            <select class="form-select bg-secondary text-light" style="width:300px;">
+              <option value="all">All</option>
+              <option value="done">Done</option>
+              <option value="undone">Undone</option>
+            </select>
+            <button type="submit" class="btn btn-primary m-2">Update</button>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary m-2" onclick=window.location.href="{{ request.app.url_path_for('index')|string }}";>Tasks</button>
+            <button type="button" class="btn btn-success m-2" onclick=window.location.href="{{ request.app.url_path_for('add_task')|string }}";>Add Task</button>
+          </div>
+        </form>
       </h2>
       <div class="table-responsive p-3">
         <!-- Renders flash messages from flask function above the table -->
